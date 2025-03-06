@@ -1,0 +1,10 @@
+crewai
+unstructured 
+pyowm
+tools 
+python-dotenv
+langchain
+langgraph
+langchain-community
+groq
+BeautifulSoup4
