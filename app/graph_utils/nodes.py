@@ -5,11 +5,12 @@ from ..prompts.city_planner_prompt import langgraph_city_planner_system_prompt, 
 from ..prompts.city_local_expert_prompt import city_local_expert_system_prompt, city_local_expert_user_prompt
 from ..prompts.trip_summarizer_prompt import trip_summarizer_system_prompt, trip_summarizer_user_prompt
 from ..services.general_agent import GeneralAgent
-from .tools import WebSearchTool
+from .tools import WebSearchTool, Calculate
 from ..utils.tool_node import BasicToolNode
 
 
 tools = [WebSearchTool]
+summarizer_tools = [WebSearchTool, Calculate]
 tool_node = BasicToolNode(tools, return_state_args="city_planner_chat_history")
 
 def ChossingCityAgent(state:GraphState):
@@ -73,7 +74,7 @@ def CityLocalExpertAgent(state:GraphState):
     return {"city_local_expert_chat_history":[response]}
 
 
-trip_summarizer_tool_node = BasicToolNode(tools, return_state_args="trip_summarizer_chat_history")
+trip_summarizer_tool_node = BasicToolNode(summarizer_tools, return_state_args="trip_summarizer_chat_history")
 
 def TripSummarizerAgent(state:GraphState):
     conversation = [
@@ -95,9 +96,9 @@ def TripSummarizerAgent(state:GraphState):
 
     time.sleep(150)
 
-    agent = GeneralAgent(llm_model=LocalExpertModel).bind_tools(tools)
+    agent = GeneralAgent(llm_model=LocalExpertModel).bind_tools(summarizer_tools)
     response = agent.get_response(conversation)
 
-    print("local agent response is : ", response)
+    print("summarizer agent response is : ", response)
 
     return {"trip_summarizer_chat_history":[response]}

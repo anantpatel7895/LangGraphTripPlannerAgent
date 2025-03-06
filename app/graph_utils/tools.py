@@ -13,7 +13,7 @@ def WebSearchTool(query:str)->list:
 
     """
     searcher = WebSearch(engine="tavily")
-    results = searcher.search(query, max_results=2)
+    results = searcher.search(query, max_results=1)
     return results
 
 
