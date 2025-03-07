@@ -6,4 +6,11 @@
 {
     "role": "user",
     "content": "Current Task: \nAnalyze and select the best city for the trip based \non specific criteria such as weather patterns, seasonal\nevents, and travel costs. This task involves comparing\nmultiple cities, considering factors like current weather\nconditions, upcoming cultural or seasonal events, and\noverall travel expenses. \n\nYour final answer must be a detailed\nreport on the chosen city, and everything you found out\nabout it, including the actual flight costs, weather \nforecast and attractions.\nIf you do your BEST WORK, I'll tip you $100!\n\nTraveling from: bangalore\nCity Options: Ujjain, New York\nTrip Date: for 7 days\nTraveler Interests: bike riding, drinking, meditation\n\n\nThis is the expected criteria for your final answer: Detailed report on the chosen city including flight costs, weather forecast, and attractions\nyou MUST return the actual complete content as the final answer, not a summary.\n\nBegin! This is VERY important to you, use the tools available and give your best Final Answer, your job depends on it!\n\nThought:"
-  }]
+  },
+
+  {
+    "role": "assistant",
+    "gemma_summarizer_output": "<tool-use>\nYou should make sure that the tool call parameters are named correctly\n</tool-use>\n\n<tool-use>\nYou should make sure that the tool call parameters are correct\n</tool-use>\n</tool-use>\n</tool-useer.com\nweather.com\nweather.com\nweather\n}\nweather.com\nweather.com\nweather.com\nweather.com\nweather.com \n\nweather"
+  }
+  
+]

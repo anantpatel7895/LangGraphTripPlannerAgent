@@ -1,10 +1,12 @@
 import json
-# from rich import print
-from pprint import pprint
+from rich import print
+import pyfiglet
 
 from ..base_model.llm_models import GraphState
 from .tool_utils import function_callling_to_json_schema
 from operator import add
+from ..utils.tool_utils import extract_tool_calls
+from ..utils.write_to_json import write_json_to_file
 
 
 
@@ -15,7 +17,9 @@ class BasicToolNode:
         self.tools_by_name = {tool.__name__: tool for tool in tools}
         self.return_state_args = return_state_args
 
-    def __call__(self, state:GraphState):
+    def __call__(self, state):
+
+        print(f"[bold black] Tool Calling Results : [/bold black]")
 
         ai_response = state[self.return_state_args][-1]
         
@@ -24,8 +28,6 @@ class BasicToolNode:
         tool_calls = ai_response.tool_calls
 
         if tool_calls:
-            # messages.append(ai_response)
-
             for tool_call in tool_calls:
                 function_name = tool_call.function.name
                 function_to_call = self.tools_by_name[function_name]
@@ -38,6 +40,12 @@ class BasicToolNode:
                 # 2. or by difining in the global space and getting by the global Config.
                 
                 function_response = function_to_call(**function_args)
+                if function_name == "WebSearchTool":
+                    file_name = "_".join(function_args["query"].split())
+                    write_json_to_file(function_response, prefix=file_name)
+
+                    print(f"[bold green]    {function_args}[/bold green]")
+                    print(f"Results for the Query is written in {file_name}")
                 
                 messages.append(
                     {
@@ -47,12 +55,34 @@ class BasicToolNode:
                         "content": str(function_response),
                     }
                 )    
-        # print("tool response is : ", {self.return_state_args:messages})
 
-        # print("ToolNode Result: ")
         # pprint(json.dumps(messages, indent=4))
 
-        return {self.return_state_args:messages}
+        # else: 
+        #     content = ai_response.content
+
+        #     too_calls = extract_tool_calls(content)
+
+        #     for tool_call in tool_calls:
+
+        #         function_name = tool_call["tool_name"]
+        #         function_to_call = self.tools_by_name[function_name]
+        #         function_args = tool_call["args"]
+
+        #         function_response = function_to_call(**function_args)
+
+        #         messages.append(
+        #             {
+        #                 "role":"tool",
+        #                 "content":f"Observation:{function_response}"
+        #             }
+        #         )
+
+
+        return {
+            self.return_state_args:messages
+
+            }
     
 
     def _get_runtime_args(self)->dict:

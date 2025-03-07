@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import os
+import json
 
 class WebSearch:
 
@@ -60,6 +61,7 @@ class WebSearch:
         headers = {"Authorization": f"Bearer {self.api_key}"}
         params = {"query": query, "num_results": max_results}
         response = requests.post(url, headers=headers, json=params).json()
+        response = [{"title":item["title"],  "url":item["url"], "content":item["content"], "score":item["score"]} for item in response.get("results", [])]
         return response
         # return [item["title"] + " - " + item["url"] for item in response.get("results", [])]
 

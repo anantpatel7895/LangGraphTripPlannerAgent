@@ -1,5 +1,6 @@
 crew_city_planner_system_prompt = """You are City Selection Expert. An expert in analyzing travel data to pick ideal destinations
  Your personal goal is: Select the best city based on weather, season, and prices.
+ 
  You ONLY have access to the following tools, and should NEVER make up tools that are not listed here:
  
  1. Tool Name: Search the internet

@@ -101,8 +101,9 @@ def llm_input_json_schema(func:Callable) -> dict:
             "parameters": {
                 "type": "object",
                 "properties": {}
-            }
-        }
+            },
+        "strict": True,
+        }   
     }
     
     required_params = []
@@ -155,43 +156,17 @@ def llm_input_json_schema(func:Callable) -> dict:
     
     return schema
 
+def extract_tool_calls(text):
+  # Regex pattern to extract tool name and arguments
+  pattern = r"<function/(\w+)>({.*?})</function>"
+
+  # Find all matches
+  matches = re.findall(pattern, text)
+
+  # Convert matches into structured format
+  tool_calls = [{"tool_name": match[0], "args": json.loads(match[1])} for match in matches]
+
+  return tool_calls
 
 
-# city = "Bhopal"
-# lat, lon = get_coordinates(city)
-# if lat and lon:
-#     print(f"Latitude: {lat}, Longitude: {lon}")
-# else:
-#     print("Could not find the coordinates.")
-
-
-import json
-from typing import Tuple, Optional
-
-def extract_next_agent_and_query(message_content: str) -> Tuple[Optional[str], Optional[str]]:
-    """
-    Extracts the 'next agent' and 'summarized query' from the given ChatCompletionMessage content.
-    
-    Args:
-        message_content (str): The content of the ChatCompletionMessage.
-    
-    Returns:
-        Tuple[Optional[str], Optional[str]]: A tuple containing (next_agent, summarized_query).
-    """
-    try:
-        # Extract the JSON-like part from the message content
-        json_start = message_content.find("{")
-        json_part = message_content[json_start:]
-        
-        # Parse JSON
-        extracted_data = json.loads(json_part)
-        
-        # Retrieve values
-        next_agent = extracted_data.get("next agent")
-        summarized_query = extracted_data.get("summarized query")
-        
-        return next_agent, summarized_query
-
-    except (json.JSONDecodeError, AttributeError, ValueError, TypeError):
-        return None, None
 

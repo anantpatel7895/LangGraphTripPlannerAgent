@@ -11,7 +11,6 @@ Tool Description: Evaluates a mathematical expression and returns the result.
 
 IMPORTANT:
 1. you MUST NOT call more than 2 tools at a time. If you need more, call 2 first, wait for results, then call the rest.
-2. use tool_calls argument in the the response for tool calling, if you want to call the tool.
 
 Once all necessary information is gathered, return the following format:
  
@@ -21,7 +20,7 @@ Once all necessary information is gathered, return the following format:
  ```
 """
 
-trip_summarizer_user_prompt = """Current Task : Expand this guide into a full {{number_of_days}} travel itinerary with detailed per-day plans, including 
+trip_summarizer_user_prompt = """Current Task : Expand this guide into a full {{number_of_days}} days travel itinerary with detailed per-day plans, including 
 weather forecasts, places to eat, packing suggestions, and a budget breakdown.
                 
 You MUST suggest actual places to visit, actual hotels to stay and actual restaurants to go to.
@@ -45,5 +44,4 @@ This is the context you're working with:
 
 This is the expected criteria for your final answer: Complete expanded travel plan with daily schedule, weather conditions, packing suggestions, and budget breakdown
 
-Thought:
 """

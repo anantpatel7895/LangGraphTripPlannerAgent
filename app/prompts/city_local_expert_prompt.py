@@ -33,9 +33,10 @@ IMPORTANT:
 
 Once all necessary information is gathered, return the following format:
 
-
+```
 Thought: I now know the final answer
 Final Answer: the final answer to the original input question
+```
 """
 
 
@@ -61,6 +62,5 @@ This is the context you're working with:
 
 Begin! This is VERY important to you, use the tools available and give your best Final Answer, your job depends on it!
 
-Thought:
 """
 
