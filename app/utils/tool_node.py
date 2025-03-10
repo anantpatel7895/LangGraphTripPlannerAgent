@@ -19,7 +19,11 @@ class BasicToolNode:
 
     def __call__(self, state):
 
+<<<<<<< HEAD
         print(f"[bold red] Tool Calling Results : [/bold red]")
+=======
+        print(f"[bold black] Tool Calling Results : [/bold black]")
+>>>>>>> 7a7281aa7d2d42162df2a09b66f8cefcf72edbe5
 
         ai_response = state[self.return_state_args][-1]
         
@@ -40,7 +44,10 @@ class BasicToolNode:
                 # 2. or by difining in the global space and getting by the global Config.
                 
                 function_response = function_to_call(**function_args)
+<<<<<<< HEAD
                 
+=======
+>>>>>>> 7a7281aa7d2d42162df2a09b66f8cefcf72edbe5
                 if function_name == "WebSearchTool":
                     file_name = "_".join(function_args["query"].split())
                     write_json_to_file(function_response, prefix=file_name)

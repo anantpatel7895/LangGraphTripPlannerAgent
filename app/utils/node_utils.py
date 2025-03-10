@@ -1,5 +1,6 @@
 import time
 import litellm
+<<<<<<< HEAD
 import re
 import json
 
@@ -32,6 +33,8 @@ def process_llm_output_details(text):
     return extracted_data
 
 
+=======
+>>>>>>> 7a7281aa7d2d42162df2a09b66f8cefcf72edbe5
 
 def call_groq_llm(agent, conversation, max_api_call_try=3):
     for attempt in range(max_api_call_try):  # Retry up to 3 times

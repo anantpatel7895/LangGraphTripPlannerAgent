@@ -37,6 +37,7 @@ def routing_trip_advisor_agent(state:TripAdvisorState):
     if hasattr(ai_message, "tool_calls") and ai_message.tool_calls is not None:
         return "tool"
     
+<<<<<<< HEAD
     return "end"
 
 
@@ -49,4 +50,6 @@ def routing_choose_city_react_agent(state:GraphState):
     if tool_call:
         return "tool"
 
+=======
+>>>>>>> 7a7281aa7d2d42162df2a09b66f8cefcf72edbe5
     return "end"

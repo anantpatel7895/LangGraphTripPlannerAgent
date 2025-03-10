@@ -1,7 +1,10 @@
 import os
 import json
 import instructor
+<<<<<<< HEAD
 import groq
+=======
+>>>>>>> 7a7281aa7d2d42162df2a09b66f8cefcf72edbe5
 
 from groq import Groq
 from groq.types.chat import ChatCompletionMessage
@@ -14,6 +17,7 @@ instant_model = "llama-3.1-8b-instant"
 versatile_model = "llama-3.3-70b-versatile"
 
 
+<<<<<<< HEAD
 
 # groq
 
@@ -51,6 +55,14 @@ class GeneralAgent:
         self.llm_config = llm_model()
 
         self.messages = messages
+=======
+class GeneralAgent:
+
+    def __init__(self, *, llm_model, response_format=None):
+
+      
+        self.llm_config = llm_model()
+>>>>>>> 7a7281aa7d2d42162df2a09b66f8cefcf72edbe5
         
 
         if response_format:
@@ -61,7 +73,11 @@ class GeneralAgent:
         self.response_format = response_format
         self.availabel_tools:list = None
         self.tools_schema:list = None
+<<<<<<< HEAD
         self.messages = []
+=======
+        self.conversation_history = []
+>>>>>>> 7a7281aa7d2d42162df2a09b66f8cefcf72edbe5
 
         self.system_prompt:str = None
 
@@ -74,6 +90,7 @@ class GeneralAgent:
 
     def get_response(self, messages):
         # print("messse in agnent is ", messages)
+<<<<<<< HEAD
 
         self.messages = messages
 
@@ -89,6 +106,12 @@ class GeneralAgent:
                 print(" Context length exceeded! Reducing message size and retrying...")
 
             return self._handle_context_length(messages)
+=======
+        response = self.get_chatcompletion(messages=messages)
+        
+        if self.response_format:
+            return response
+>>>>>>> 7a7281aa7d2d42162df2a09b66f8cefcf72edbe5
 
         return response.choices[0].message
 
@@ -160,6 +183,7 @@ class GeneralAgent:
 
         return self
 
+<<<<<<< HEAD
     def _handle_context_length(self, messages):
 
         messages_groups = []
@@ -206,3 +230,5 @@ class GeneralAgent:
 
     
 
+=======
+>>>>>>> 7a7281aa7d2d42162df2a09b66f8cefcf72edbe5
