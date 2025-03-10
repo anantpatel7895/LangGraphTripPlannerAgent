@@ -1,7 +1,6 @@
 import time
 import litellm
 
-<<<<<<< HEAD
 from ..base_model.llm_models import GraphState, CitySearchModel, LocalExpertModel, TripAdvisorState, ReactGraphState
 
 # too calling prompt
@@ -16,24 +15,14 @@ from ..prompts.react_prompts.city_local_expert_prompt import city_local_expert_s
 from ..prompts.react_prompts.trip_summarizer_prompt import trip_summarizer_system_prompt, trip_summarizer_user_prompt
 
 
-=======
-from ..base_model.llm_models import GraphState, CitySearchModel, LocalExpertModel, TripAdvisorState
-from ..prompts.city_planner_prompt import langgraph_city_planner_system_prompt, langgraph_city_planner_user_prompt
-from ..prompts.city_local_expert_prompt import city_local_expert_system_prompt, city_local_expert_user_prompt
-from ..prompts.trip_summarizer_prompt import trip_summarizer_system_prompt, trip_summarizer_user_prompt
-from ..prompts.trip_advisor_prompt import trip_advisor_system_prompt, trip_advisor_user_prompt
->>>>>>> 7a7281aa7d2d42162df2a09b66f8cefcf72edbe5
 from ..services.general_agent import GeneralAgent
 from .tools import WebSearchTool, Calculate, HumanAssistantTool
 from ..utils.tool_node import BasicToolNode
 from ..utils.tool_utils import extract_tool_calls
-<<<<<<< HEAD
 from ..utils.node_utils import process_llm_output_details
 
 from ..utils.react_tool_node import ReactToolNode
 from ..utils.write_to_json import write_json_to_file
-=======
->>>>>>> 7a7281aa7d2d42162df2a09b66f8cefcf72edbe5
 
 
 tools = [WebSearchTool]
@@ -52,11 +41,7 @@ def TripAssitantAgent(state:TripAdvisorState):
         {
             "role":"user",
             "content":trip_advisor_user_prompt.format(
-<<<<<<< HEAD
                     name_of_city=state["origin_city"],
-=======
-                    origin_city=state["origin_city"],
->>>>>>> 7a7281aa7d2d42162df2a09b66f8cefcf72edbe5
                     destination = state["destination_city"]
             )
         }
@@ -70,11 +55,6 @@ def TripAssitantAgent(state:TripAdvisorState):
 
     return {"chat_history":[response]}
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 7a7281aa7d2d42162df2a09b66f8cefcf72edbe5
 tool_node = BasicToolNode(tools, return_state_args="city_planner_chat_history")
 
 def ChossingCityAgent(state:GraphState):
@@ -88,15 +68,8 @@ def ChossingCityAgent(state:GraphState):
         {
             "role":"user",
             "content":langgraph_city_planner_user_prompt.format(
-<<<<<<< HEAD
                 name_of_city=state["inputs"]["origin_city"],
                 destinations=state["inputs"]["destinations"],
-=======
-                origin_city=state["inputs"]["origin_city"],
-                destinations=state["inputs"]["destinations"],
-                month=state["inputs"]["month"],
-                number_of_days=state["inputs"]["number_of_days"],
->>>>>>> 7a7281aa7d2d42162df2a09b66f8cefcf72edbe5
                 interests=state["inputs"]["traveller_interests"]
             )
         }
@@ -104,11 +77,8 @@ def ChossingCityAgent(state:GraphState):
 
     # time.sleep(150)
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> 7a7281aa7d2d42162df2a09b66f8cefcf72edbe5
     agent = GeneralAgent(llm_model=CitySearchModel).bind_tools(tools)
     response = agent.get_response(conversation)
 
@@ -141,12 +111,7 @@ def CityLocalExpertAgent(state:GraphState):
         {
             "role":"user",
             "content":city_local_expert_user_prompt.format(
-<<<<<<< HEAD
                 name_of_city=state["inputs"]["origin_city"],
-=======
-                origin_city=state["inputs"]["origin_city"],
-                month=state["inputs"]["month"],
->>>>>>> 7a7281aa7d2d42162df2a09b66f8cefcf72edbe5
                 interests=state["inputs"]["traveller_interests"],
                 context_of_agent1=state["city_planner_chat_history"][-1].content
             )
@@ -158,14 +123,11 @@ def CityLocalExpertAgent(state:GraphState):
     agent = GeneralAgent(llm_model=LocalExpertModel).bind_tools(tools)
     response = agent.get_response(conversation)
 
-<<<<<<< HEAD
     if response.content:
         while "tool_call" in response.content:
             print("resolving the tool calling error")
             response = agent.get_response(conversation)
 
-=======
->>>>>>> 7a7281aa7d2d42162df2a09b66f8cefcf72edbe5
     print("local agent response is : ", response)
 
     return {"city_local_expert_chat_history":[response]}
@@ -174,30 +136,19 @@ def CityLocalExpertAgent(state:GraphState):
 trip_summarizer_tool_node = BasicToolNode(summarizer_tools, return_state_args="trip_summarizer_chat_history")
 
 def TripSummarizerAgent(state:GraphState):
-<<<<<<< HEAD
 
     # print("context of agent 2: ", state["city_local_expert_chat_history"][-1].content)
-=======
->>>>>>> 7a7281aa7d2d42162df2a09b66f8cefcf72edbe5
     conversation = [
         {
             "role":"system",
             "content":trip_summarizer_system_prompt
 
         },
-<<<<<<< HEAD
 
         {
             "role":"user",
             "content":trip_summarizer_user_prompt.format(
                 name_of_city=state["inputs"]["origin_city"],
-=======
-        {
-            "role":"user",
-            "content":trip_summarizer_user_prompt.format(
-                origin_city=state["inputs"]["origin_city"],
-                number_of_days=state["inputs"]["number_of_days"],
->>>>>>> 7a7281aa7d2d42162df2a09b66f8cefcf72edbe5
                 interests=state["inputs"]["traveller_interests"],
                 context_of_agent2=state["city_local_expert_chat_history"][-1].content
             )
@@ -209,7 +160,6 @@ def TripSummarizerAgent(state:GraphState):
     agent = GeneralAgent(llm_model=LocalExpertModel).bind_tools(summarizer_tools)
     response = agent.get_response(conversation)
 
-<<<<<<< HEAD
     if response.content is None:
         while "tool_call" in response.content:
             print("resolving the tool calling error")
@@ -276,8 +226,3 @@ def ChossingCityReactAgent(state:ReactGraphState):
                 "role":"assistant",
                 "content":response.content
             }]}
-=======
-    print("summarizer agent response is : ", response)
-
-    return {"trip_summarizer_chat_history":[response]}
->>>>>>> 7a7281aa7d2d42162df2a09b66f8cefcf72edbe5
